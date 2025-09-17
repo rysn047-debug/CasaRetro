@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install # Use pnpm install
       - name: Build
-        run: pnpm run build # Use pnpm run build
+        run: pnpm run buildstyles  # Use pnpm run build
       # --- PNPM CHANGES END HERE ---
 
       - name: Setup Pages
