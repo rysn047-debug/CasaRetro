@@ -1,0 +1,32 @@
+@import "tailwindcss"; 
+
+@font-face {
+   font-family: 'PressStart2P'; 
+   src: url('PressStart2P.woff2') format('woff2');
+   font-style: normal;
+   font-weight: 100 700;
+   font-display: swap;
+}
+
+@theme {
+    --color-nostalgy: #494252;
+    --color-nostalgy-one: #8a7f85;
+    --color-nostalgy-two: #c7b68d;
+    --color-nostalgy-three: #c79275;
+    --color-nostalgy-four: #96607f;
+    --color-nostalgy-five: #55527a;
+    --color-nostalgy-six: #6284a1;
+    --color-nostalgy-seven: #7c9e64;
+    --color-roulete: #647FBC;
+    --color-roulete-lite: #91ADC8;
+    --color-soccer: #EF7722;
+    --color-soccer-lite: #FAA533;
+    /* Fonts */
+    --font-display: 'PressStart2P', system-ui, sans-serif; 
+
+    --breakpoint: 350px;
+};
+
+.social-button {
+    @apply p-2 size-12 flex items-center justify-center rounded-full hover:scale-110 transition-transform;
+}

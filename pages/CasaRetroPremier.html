@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Fight League - Atmospheric</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the atmospheric retro theme */
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #444760; /* Desaturated dark blue/purple */
+            color: #d1bfb0; /* Creamy beige for text */
+            text-shadow: 2px 2px #392b35; /* Darkest purple for depth */
+        }
+
+        /* Custom button style for a punchy, energetic feel */
+        .btn-retro {
+            background-color: #bb474f; /* Muted, strong red */
+            border: 3px solid #392b35; /* Darkest purple border */
+            color: #d1bfb0;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            box-shadow: 4px 4px 0px #392b35; /* Hard shadow for 8-bit effect */
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .btn-retro:hover:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #392b35;
+        }
+
+        .btn-retro:active:not(:disabled) {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px #392b35;
+        }
+        
+        .btn-retro:disabled {
+            background-color: #486b7f; /* Dusty blue for inactive state */
+            cursor: not-allowed;
+            opacity: 0.7;
+            box-shadow: none;
+        }
+        
+        .btn-retro-icon {
+            background-color: transparent;
+            border: none;
+            padding: 4px;
+            transition: transform 0.1s ease-in-out;
+        }
+        .btn-retro-icon:hover {
+            transform: scale(1.1);
+        }
+        .btn-retro-icon svg {
+             filter: drop-shadow(2px 2px 0px #392b35);
+        }
+
+        /* Custom input style */
+        .input-retro {
+            background-color: #d1bfb0; /* Creamy beige for high contrast */
+            border: 3px solid #486b7f; /* Dusty blue border */
+            color: #392b35; /* Darkest purple text for readability */
+            padding: 10px;
+            outline: none;
+            text-shadow: none;
+        }
+
+        .input-retro::placeholder {
+            color: #713f52; /* Muted magenta placeholder text */
+        }
+        
+        .input-retro:focus {
+            border-color: #bb474f; /* Muted red for focus state */
+        }
+        
+        .input-retro[readonly] {
+            background-color: #7a9c96; /* Muted teal for readonly */
+            cursor: not-allowed;
+        }
+
+        /* Custom container/card style */
+        .card-retro {
+            background-color: #423952; /* Dark purple, space-like */
+            border: 4px solid #486b7f; /* Dusty blue border */
+            padding: 2rem;
+        }
+        
+        /* Custom table style */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 4px solid #486b7f;
+        }
+        th, td {
+            border: 3px solid #713f52; /* Muted magenta borders */
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #423952; /* Dark purple header */
+        }
+        tbody tr:nth-child(even) {
+            background-color: #486b7f; /* Dusty blue for alternate rows */
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #423952; /* Dark purple for alternate rows */
+        }
+        
+        /* VS Separator style */
+        .vs-separator {
+            color: #bb474f; /* Muted red color */
+            text-shadow: 2px 2px #392b35; /* Darkest purple shadow for contrast */
+        }
+        
+        /* Modal Styles */
+        .modal-backdrop {
+            background-color: rgba(57, 43, 53, 0.85); /* Semi-transparent dark purple */
+        }
+
+        .participant-link {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .participant-link:hover {
+            text-decoration: underline;
+        }
+        
+        .modal-content {
+            background-color: #423952; /* Dark purple */
+            border: 8px solid #bb474f; /* Muted red border */
+            box-shadow: 0 0 40px #bb474f;
+            max-width: 800px;
+        }
+        
+        .modal-content-winner {
+            background-color: transparent;
+            border: 8px solid #bb474f;
+            box-shadow: 0 0 40px #bb474f;
+        }
+
+        /* Custom Scrollbar for modal tables */
+        .modal-content .overflow-y-auto::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .modal-content .overflow-y-auto::-webkit-scrollbar-track {
+            background: #392b35; /* Darkest purple */
+        }
+
+        .modal-content .overflow-y-auto::-webkit-scrollbar-thumb {
+            background-color: #bb474f; /* Muted, strong red */
+            border: 3px solid #423952; /* Modal content background for a 'floating' look */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-7xl mx-auto space-y-8">
+        <!-- Header -->
+        <header class="text-center">
+            <h1 class="text-4xl md:text-6xl" style="color: #bb474f;">CASARETRO LEAGUE</h1>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Controls -->
+            <section id="leftSection" class="lg:col-span-1 space-y-8">
+                <!-- Add Player Card -->
+                <div id="addPlayerCard" class="card-retro">
+                    <h2 class="text-2xl mb-4 text-center">JOIN THE FIGHT</h2>
+                    <div class="flex flex-col space-y-4">
+                        <input type="text" id="playerName" class="input-retro" placeholder="ENTER FIGHTER NAME...">
+                        <button id="addPlayerBtn" class="btn-retro">Add Fighter</button>
+                    </div>
+                </div>
+
+                <!-- Current Match Card -->
+                <div id="matchCard" class="card-retro hidden">
+                    <h2 id="battleHeader" class="text-2xl mb-4 text-center">NEXT BATTLE</h2>
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="text-center">
+                            <p id="player1Name" class="text-2xl" style="color:#7a9c96;"></p>
+                            <input type="number" id="player1Score" class="input-retro w-24 text-center mt-2" min="0" placeholder="SCORE">
+                        </div>
+                        <p class="vs-separator text-4xl font-bold">VS</p>
+                        <div class="text-center">
+                             <p id="player2Name" class="text-2xl" style="color:#7a9c96;"></p>
+                             <input type="number" id="player2Score" class="input-retro w-24 text-center mt-2" min="0" placeholder="SCORE">
+                        </div>
+                        <button id="submitScoreBtn" class="btn-retro mt-4">Submit Score</button>
+                        <p id="scoreError" class="text-red-400 text-center text-sm hidden mt-2"></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Leaderboard Section -->
+            <section id="leaderboardSection" class="card-retro lg:col-span-2">
+                <h2 class="text-2xl mb-4 text-center">LEADERBOARD</h2>
+                <div class="overflow-x-auto">
+                    <table id="playerTable" class="w-full">
+                        <thead>
+                            <tr>
+                                <th>FIGHTER</th>
+                                <th>J</th>
+                                <th>G</th>
+                                <th>P</th>
+                                <th>MF</th>
+                                <th>MC</th>
+                                <th>MD</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Player rows will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-6">
+                    <button id="startTournamentBtn" class="btn-retro" disabled>Start Tournament</button>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Management Button -->
+        <footer class="text-center mt-4">
+            <div class="flex justify-center gap-4 flex-wrap">
+                <button id="manageFightersBtn" class="btn-retro">Manage Fighters</button>
+                <button id="allMatchesBtn" class="btn-retro">All Matches</button>
+                <button id="resetAppBtn" class="btn-retro" style="background-color: #713f52;">Reset Tournament</button>
+            </div>
+        </footer>
+        
+        <!-- Modals Container -->
+
+        <!-- Winner Modal -->
+        <div id="winnerModal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+            <div class="modal-content-winner p-8 text-center space-y-4 animate-pulse">
+                <h2 class="text-3xl" style="color:#d1bfb0;">TOURNAMENT COMPLETE!</h2>
+                <p class="text-xl">THE CHAMPION IS</p>
+                <p id="winnerName" class="text-5xl" style="color:#bb474f;"></p>
+            </div>
+        </div>
+
+        <!-- Manage Fighters Modal -->
+        <div id="manageModal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+            <div class="modal-content p-8 text-center space-y-6 w-full">
+                <h2 id="manageModalTitle" class="text-2xl">MANAGE FIGHTERS</h2>
+                <div class="overflow-x-auto max-h-96 overflow-y-auto">
+                    <table id="manageTable" class="w-full">
+                        <thead id="manageTableHead">
+                            <tr>
+                                <th>FIGHTER</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="manageTableBody"></tbody>
+                    </table>
+                </div>
+                <div class="flex justify-center gap-4 mt-4">
+                    <button id="backManageBtn" class="btn-retro" style="display:none;">Back</button>
+                    <button id="closeManageModalBtn" class="btn-retro">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Edit Fighter Modal -->
+        <div id="editModal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+            <div class="modal-content p-8 text-center space-y-6 w-full">
+                <h2 class="text-2xl">EDIT <span id="editFighterName" style="color: #bb474f;"></span></h2>
+                <div class="space-y-4 text-left">
+                    <div>
+                        <label for="editName">FIGHTER NAME</label>
+                        <input type="text" id="editName" class="input-retro w-full mt-1" maxlength="20">
+                    </div>
+                    <div>
+                        <label for="editMatchesPlayed">MATCHES PLAYED (MP)</label>
+                        <input type="number" id="editMatchesPlayed" class="input-retro w-full mt-1" readonly>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="editWins">WINS (W)</label>
+                            <input type="number" id="editWins" class="input-retro w-full mt-1" min="0">
+                        </div>
+                        <div>
+                            <label for="editLosses">LOSSES (L)</label>
+                            <input type="number" id="editLosses" class="input-retro w-full mt-1" min="0">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="editScoreFor">SCORE FOR (SF)</label>
+                        <input type="number" id="editScoreFor" class="input-retro w-full mt-1" min="0">
+                    </div>
+                    <div>
+                        <label for="editScoreAgainst">SCORE AGAINST (SA)</label>
+                        <input type="number" id="editScoreAgainst" class="input-retro w-full mt-1" min="0">
+                    </div>
+                    <div>
+                        <label for="editScoreDiff">SCORE DIFF (SD)</label>
+                        <input type="number" id="editScoreDiff" class="input-retro w-full mt-1" readonly>
+                    </div>
+                     <div>
+                        <label for="editPoints">POINTS (P)</label>
+                        <input type="number" id="editPoints" class="input-retro w-full mt-1" min="0">
+                    </div>
+                </div>
+                <div class="flex justify-center gap-4 mt-4">
+                    <button id="saveEditBtn" class="btn-retro">Save</button>
+                    <button id="cancelEditBtn" class="btn-retro">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FT Select Modal -->
+        <div id="ftModal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+            <div class="modal-content p-8 text-center space-y-6 w-full">
+                <h2 class="text-2xl">SET WINNING SCORE</h2>
+                <p class="text-sm" style="color: #d1bfb0;">("First To..." value)</p>
+                <div>
+                    <input type="number" id="ftValue" class="input-retro w-full text-center" min="1" value="5">
+                </div>
+                <div class="flex justify-center gap-4 mt-4">
+                    <button id="confirmStartBtn" class="btn-retro">Start Fights</button>
+                    <button id="cancelStartBtn" class="btn-retro" style="background-color:#713f52;">Cancel</button>
+                </div>
+                <p id="ftError" class="text-red-400 text-center text-sm hidden mt-2"></p>
+            </div>
+        </div>
+
+        <!-- Participant Matches Modal -->
+        <div id="participantModal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+            <div class="modal-content p-8 text-center space-y-6 w-full max-w-4xl">
+                <h2 class="text-2xl">MATCHES FOR <span id="participantName" style="color: #bb474f;"></span></h2>
+                <div class="overflow-y-auto max-h-96">
+                    <table id="participantMatchesTable" class="w-full">
+                        <thead>
+                            <tr>
+                                <th>Match #</th>
+                                <th>Opponent</th>
+                                <th>Status</th>
+                                <th>Result</th>
+                                <th>Score For</th>
+                                <th>Score Against</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <button id="closeParticipantModalBtn" class="btn-retro mt-4">Close</button>
+            </div>
+        </div>
+
+        <!-- Edit Match Modal -->
+        <div id="editMatchModal" class="fixed inset-0 items-center justify-center hidden modal-backdrop">
+            <div class="modal-content p-8 text-center space-y-6 w-full">
+                <h2 class="text-2xl">EDIT MATCH</h2>
+                <div class="space-y-4">
+                    <p id="editMatchInfo" class="text-sm"></p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="editScore1">Score for <span id="editPlayer1Name"></span></label>
+                            <input type="number" id="editScore1" class="input-retro w-full mt-1" min="0">
+                        </div>
+                        <div>
+                            <label for="editScore2">Score for <span id="editPlayer2Name"></span></label>
+                            <input type="number" id="editScore2" class="input-retro w-full mt-1" min="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center gap-4 mt-4">
+                    <button id="saveMatchEditBtn" class="btn-retro">Save</button>
+                    <button id="cancelMatchEditBtn" class="btn-retro">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const playerNameInput = document.getElementById('playerName');
+            const addPlayerBtn = document.getElementById('addPlayerBtn');
+            const startTournamentBtn = document.getElementById('startTournamentBtn');
+            const playerTableBody = document.querySelector('#playerTable tbody');
+            const matchCard = document.getElementById('matchCard');
+            const addPlayerCard = document.getElementById('addPlayerCard');
+            
+            const battleHeader = document.getElementById('battleHeader');
+            const p1NameEl = document.getElementById('player1Name');
+            const p1ScoreEl = document.getElementById('player1Score');
+            const p2NameEl = document.getElementById('player2Name');
+            const p2ScoreEl = document.getElementById('player2Score');
+            const submitScoreBtn = document.getElementById('submitScoreBtn');
+            const scoreError = document.getElementById('scoreError');
+            
+            const winnerModal = document.getElementById('winnerModal');
+            const winnerNameEl = document.getElementById('winnerName');
+            
+            const manageFightersBtn = document.getElementById('manageFightersBtn');
+            const manageModal = document.getElementById('manageModal');
+            const manageModalTitle = document.getElementById('manageModalTitle');
+            const closeManageModalBtn = document.getElementById('closeManageModalBtn');
+            const backManageBtn = document.getElementById('backManageBtn');
+            const manageTableHead = document.getElementById('manageTableHead');
+            const manageTableBody = document.getElementById('manageTableBody');
+            const allMatchesBtn = document.getElementById('allMatchesBtn');
+            
+            const editModal = document.getElementById('editModal');
+            const editFighterName = document.getElementById('editFighterName');
+            const editNameInput = document.getElementById('editName');
+            const editWinsInput = document.getElementById('editWins');
+            const editLossesInput = document.getElementById('editLosses');
+            const editPointsInput = document.getElementById('editPoints');
+            const editScoreForInput = document.getElementById('editScoreFor');
+            const editScoreAgainstInput = document.getElementById('editScoreAgainst');
+            const editScoreDiffInput = document.getElementById('editScoreDiff');
+            const editMatchesPlayedInput = document.getElementById('editMatchesPlayed');
+            const saveEditBtn = document.getElementById('saveEditBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+            const ftModal = document.getElementById('ftModal');
+            const ftValueInput = document.getElementById('ftValue');
+            const confirmStartBtn = document.getElementById('confirmStartBtn');
+            const cancelStartBtn = document.getElementById('cancelStartBtn');
+            const ftError = document.getElementById('ftError');
+
+            const participantModal = document.getElementById('participantModal');
+            const participantNameEl = document.getElementById('participantName');
+            const participantMatchesTableBody = document.querySelector('#participantMatchesTable tbody');
+            const closeParticipantModalBtn = document.getElementById('closeParticipantModalBtn');
+
+            const editMatchModal = document.getElementById('editMatchModal');
+            const editMatchInfo = document.getElementById('editMatchInfo');
+            const editPlayer1Name = document.getElementById('editPlayer1Name');
+            const editPlayer2Name = document.getElementById('editPlayer2Name');
+            const editScore1Input = document.getElementById('editScore1');
+            const editScore2Input = document.getElementById('editScore2');
+            const saveMatchEditBtn = document.getElementById('saveMatchEditBtn');
+            const cancelMatchEditBtn = document.getElementById('cancelMatchEditBtn');
+
+            // --- State ---
+            let participants = [];
+            let currentMatch = null;
+            let schedule = [];
+            let currentMatchIndex = 0; 
+            let tournamentStarted = false;
+            let editingParticipantId = null;
+            let winningScore = 5;
+            let currentEditingMatchIndex = null;
+            let manageEditMode = false;
+            let selectedFighterId = null;
+
+            // --- State Persistence ---
+            function saveState() {
+                const appState = {
+                    participants,
+                    schedule,
+                    tournamentStarted,
+                    winningScore
+                };
+                localStorage.setItem('retroLeagueState', JSON.stringify(appState));
+            }
+
+            function loadState() {
+                const savedState = localStorage.getItem('retroLeagueState');
+                if (savedState) {
+                    const appState = JSON.parse(savedState);
+                    participants = appState.participants || [];
+                    schedule = appState.schedule || [];
+                    tournamentStarted = appState.tournamentStarted || false;
+                    winningScore = appState.winningScore || 5;
+
+                    // --- Re-hydration Step ---
+                    // This is the critical fix. When we load from localStorage, the
+                    // `player1` and `player2` in the schedule are just copies of the
+                    // data, not direct references to the objects in the `participants` array.
+                    // This loop reconnects them, ensuring that when we update a player's
+                    // score in a match, we're updating the *actual* participant object.
+                    if (participants.length > 0 && schedule.length > 0) {
+                        schedule.forEach(match => {
+                            if (match.player1 && match.player1.id) {
+                                match.player1 = participants.find(p => p.id === match.player1.id);
+                            }
+                            if (match.player2 && match.player2.id) {
+                                match.player2 = participants.find(p => p.id === match.player2.id);
+                            }
+                        });
+                    }
+                }
+            }
+
+            // --- Participant Management ---
+            function addPlayer() {
+                const name = playerNameInput.value.trim().toUpperCase();
+                if (name && !participants.some(p => p.name === name)) {
+                    participants.push({
+                        id: Date.now(),
+                        name: name,
+                        wins: 0,
+                        losses: 0,
+                        points: 0,
+                        scoreFor: 0,
+                        scoreAgainst: 0,
+                        scoreDifference: 0
+                    });
+                    playerNameInput.value = '';
+                    renderTable();
+                    updateStartButton();
+                    saveState();
+                } else if (name) {
+                    alert('Fighter with this name already exists!');
+                }
+            }
+            
+            function deletePlayer(id) {
+                if (tournamentStarted) {
+                    alert("Cannot remove a fighter while the tournament is in progress.");
+                    return;
+                }
+                participants = participants.filter(p => p.id !== id);
+                renderTable();
+                populateManageFightersTable();
+                updateStartButton();
+                saveState();
+            }
+
+            // --- Rendering Functions ---
+            function renderTable() {
+                playerTableBody.innerHTML = '';
+                const sortedParticipants = [...participants].sort((a, b) => 
+                    b.points - a.points || 
+                    b.scoreDifference - a.scoreDifference ||
+                    b.scoreFor - a.scoreFor
+                );
+                
+                sortedParticipants.forEach(p => {
+                    const row = document.createElement('tr');
+                    const matchesPlayed = p.wins + p.losses;
+                    row.innerHTML = `
+                        <td><a href="#" class="participant-link" data-id="${p.id}">${p.name}</a></td>
+                        <td>${matchesPlayed}</td>
+                        <td>${p.wins}</td>
+                        <td>${p.losses}</td>
+                        <td>${p.scoreFor}</td>
+                        <td>${p.scoreAgainst}</td>
+                        <td>${p.scoreDifference}</td>
+                        <td>${p.points}</td>
+                    `;
+                    playerTableBody.appendChild(row);
+                });
+            }
+
+            function updateStartButton() {
+                const canStart = participants.length >= 2 && !tournamentStarted;
+                startTournamentBtn.disabled = !canStart;
+                manageFightersBtn.disabled = false;
+            }
+
+            // --- Tournament Logic ---
+            function confirmAndStartTournament() {
+                const ft = parseInt(ftValueInput.value);
+                if (isNaN(ft) || ft < 1) {
+                    ftError.textContent = "Please enter a valid number (1 or higher).";
+                    ftError.classList.remove('hidden');
+                    return;
+                }
+                winningScore = ft;
+                closeFtModal();
+                startTournament();
+            }
+
+            function startTournament() {
+                tournamentStarted = true;
+                generateSchedule();
+                currentMatchIndex = 0;
+
+                addPlayerCard.classList.add('hidden');
+                updateStartButton();
+                addPlayerBtn.disabled = true;
+                playerNameInput.disabled = true;
+
+                selectNextMatch();
+            }
+
+            function generateSchedule() {
+                schedule = [];
+                const players = [...participants];
+
+                if (players.length % 2 !== 0) {
+                    players.push({ id: 'bye', name: 'BYE' });
+                }
+
+                const rounds = players.length - 1;
+                const half = players.length / 2;
+                
+                for (let i = 0; i < rounds; i++) {
+                    for (let j = 0; j < half; j++) {
+                        const player1 = players[j];
+                        const player2 = players[players.length - 1 - j];
+
+                        if (player1.id !== 'bye' && player2.id !== 'bye') {
+                           if (Math.random() > 0.5) {
+                               schedule.push({ player1, player2, result: null });
+                           } else {
+                               schedule.push({ player1: player2, player2: player1, result: null });
+                           }
+                        }
+                    }
+
+                    const lastPlayer = players.pop();
+                    players.splice(1, 0, lastPlayer);
+                }
+            }
+
+            function selectNextMatch() {
+                // Find the first match from the schedule that hasn't been played yet.
+                const nextMatchIndex = schedule.findIndex((match) => !match.result);
+
+                if (nextMatchIndex !== -1) {
+                    currentMatchIndex = nextMatchIndex;
+                    currentMatch = schedule[currentMatchIndex];
+                    displayMatch();
+                } else {
+                    currentMatch = null;
+                    matchCard.classList.add('hidden');
+                    if (tournamentStarted) endTournament();
+                }
+            }
+
+            function displayMatch() {
+                matchCard.classList.remove('hidden');
+                const matchNumber = schedule.findIndex(m => m === currentMatch) + 1;
+                battleHeader.textContent = `MATCH ${matchNumber}/${schedule.length} (FT${winningScore})`;
+                p1NameEl.textContent = currentMatch.player1.name;
+                p2NameEl.textContent = currentMatch.player2.name;
+                p1ScoreEl.value = '';
+                p2ScoreEl.value = '';
+                p1ScoreEl.max = winningScore;
+                p2ScoreEl.max = winningScore;
+                scoreError.classList.add('hidden');
+            }
+            
+            function processMatchResult(match, score1, score2) {
+                const { player1, player2 } = match;
+
+                player1.scoreFor += score1;
+                player1.scoreAgainst += score2;
+                player1.scoreDifference = player1.scoreFor - player1.scoreAgainst;
+                
+                player2.scoreFor += score2;
+                player2.scoreAgainst += score1;
+                player2.scoreDifference = player2.scoreFor - player2.scoreAgainst;
+
+                const winner = (score1 > score2) ? player1 : player2;
+                const loser = (score1 > score2) ? player2 : player1;
+                
+                winner.wins++;
+                winner.points += 3;
+                loser.losses++;
+
+                // Store match result
+                match.result = {
+                    score1,
+                    score2,
+                    winnerId: winner.id,
+                    loserId: loser.id
+                };
+            }
+
+            function submitScore() {
+                const score1 = parseInt(p1ScoreEl.value);
+                const score2 = parseInt(p2ScoreEl.value);
+
+                if (isNaN(score1) || isNaN(score2) || score1 < 0 || score2 < 0) {
+                    showError("Scores must be positive numbers.");
+                    return;
+                }
+                if ((score1 !== winningScore && score2 !== winningScore) || score1 === score2) {
+                     showError(`One player must win with a score of ${winningScore} (FT${winningScore}).`);
+                     return;
+                }
+                 if (score1 > winningScore || score2 > winningScore) {
+                     showError(`Scores cannot exceed ${winningScore}.`);
+                     return;
+                }
+                
+                processMatchResult(currentMatch, score1, score2);
+
+                matchCard.classList.add('hidden');
+                renderTable();
+                selectNextMatch();
+            }
+            
+            function showError(message) {
+                scoreError.textContent = message;
+                scoreError.classList.remove('hidden');
+            }
+
+            function endTournament() {
+                  if (participants.length === 0) {
+                      winnerNameEl.textContent = "NO ONE!";
+                  } else {
+                      const sorted = [...participants].sort((a, b) =>
+                         b.points - a.points ||
+                         b.scoreDifference - a.scoreDifference ||
+                         b.scoreFor - a.scoreFor
+                      );
+                      winnerNameEl.textContent = sorted[0].name;
+                  }
+                  // Center the leaderboard when showing winner
+                  document.getElementById('leftSection').style.display = 'none';
+                  document.getElementById('leaderboardSection').classList.remove('lg:col-span-2');
+                  document.getElementById('leaderboardSection').classList.add('lg:col-span-3');
+                  winnerModal.style.display = 'flex';
+            }
+            
+            function resetApp() {
+                participants = [];
+                currentMatch = null;
+                schedule = [];
+                currentMatchIndex = 0;
+                tournamentStarted = false;
+                winningScore = 5;
+
+                renderTable();
+                updateStartButton();
+
+                addPlayerCard.classList.remove('hidden');
+                matchCard.classList.add('hidden');
+                winnerModal.style.display = 'none';
+
+                // Restore layout
+                document.getElementById('leftSection').style.display = '';
+                document.getElementById('leaderboardSection').classList.remove('lg:col-span-3');
+                document.getElementById('leaderboardSection').classList.add('lg:col-span-2');
+
+                addPlayerBtn.disabled = false;
+                playerNameInput.disabled = false;
+                playerNameInput.value = '';
+            }
+            
+            // --- Modal Logic --- 
+            function openFtModal() {
+                ftValueInput.value = winningScore;
+                ftError.classList.add('hidden');
+                ftModal.style.display = 'flex';
+            }
+
+            function closeFtModal() {
+                ftModal.style.display = 'none';
+            }
+
+            function openManageModal() {
+                selectedFighterId = null;
+                manageModalTitle.textContent = 'MANAGE FIGHTERS';
+                manageTableHead.innerHTML = '<tr><th>FIGHTER</th><th>ACTIONS</th></tr>';
+                backManageBtn.style.display = 'none';
+                populateManageFightersTable();
+                manageModal.style.display = 'flex';
+            }
+            
+            function closeManageModal() {
+                selectedFighterId = null;
+                manageModalTitle.textContent = 'MANAGE FIGHTERS';
+                manageTableHead.innerHTML = '<tr><th>FIGHTER</th><th>ACTIONS</th></tr>';
+                backManageBtn.style.display = 'none';
+                manageModal.style.display = 'none';
+            }
+            
+            function populateManageFightersTable() {
+                manageTableBody.innerHTML = '';
+                participants.forEach(p => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${p.name}</td>
+                        <td class="flex justify-center items-center gap-2">
+                            <button class="btn-retro-icon" data-action="view_matches" data-id="${p.id}" title="View Matches">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d1bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </button>
+                            <button class="btn-retro-icon" data-action="edit" data-id="${p.id}" title="Edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d1bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                            </button>
+                            <button class="btn-retro-icon" data-action="delete" data-id="${p.id}" title="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#bb474f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                            </button>
+                        </td>
+                    `;
+                    manageTableBody.appendChild(row);
+                });
+            }
+
+            function populateAllMatchesTable() {
+                manageTableBody.innerHTML = '';
+                if (schedule.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="4" class="text-center">No matches scheduled yet.</td>';
+                    manageTableBody.appendChild(row);
+                    return;
+                }
+                schedule.forEach((match, index) => {
+                    const row = document.createElement('tr');
+                    let scoreHtml = '';
+                    let actionHtml = '';
+
+                    if (match.result) {
+                        const winnerName = match.result.winnerId === match.player1.id ? match.player1.name : match.player2.name;
+                        scoreHtml = `<td>${match.result.score1} - ${match.result.score2} (${winnerName} wins)</td>`;
+                        actionHtml = '<td>-</td>'; // No action for played matches
+                    } else {
+                        scoreHtml = `
+                            <td class="flex items-center justify-center gap-2">
+                                <input type="number" class="input-retro w-16 text-center" data-match-index="${index}" data-player="1" placeholder="P1">
+                                <span>-</span>
+                                <input type="number" class="input-retro w-16 text-center" data-match-index="${index}" data-player="2" placeholder="P2">
+                                <button class="btn-retro-icon save-manual-score" data-match-index="${index}" title="Save Score">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d1bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </button>
+                            </td>
+                        `;
+                        actionHtml = `
+                            <td>
+                                <button class="btn-retro-icon play-now-btn" data-match-index="${index}" title="Play Now">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7a9c96" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                </button>
+                            </td>
+                        `;
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        ${actionHtml}
+                        <td>${match.player1.name} vs ${match.player2.name}</td>
+                        ${scoreHtml}
+                    `;
+                    manageTableBody.appendChild(row);
+                });
+            }
+
+            function populateFighterMatchesTable(fighterId) {
+                const fighter = participants.find(p => p.id === fighterId);
+                if (!fighter) return;
+                manageTableBody.innerHTML = '';
+                if (schedule.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="5" class="text-center">No matches scheduled yet.</td>';
+                    manageTableBody.appendChild(row);
+                    return;
+                }
+                schedule.forEach((match, index) => {
+                    if (match.player1.id !== fighterId && match.player2.id !== fighterId) return;
+                    const opponent = match.player1.id === fighterId ? match.player2 : match.player1;
+                    const isPlayed = !!match.result;
+                    const status = isPlayed ? 'Played' : 'Upcoming';
+                    let result = '';
+                    let scoreFor = '';
+                    let scoreAgainst = '';
+                    let actions = '';
+                    if (isPlayed) {
+                        const isPlayer1 = match.player1.id === fighter.id;
+                        const playerScore = isPlayer1 ? match.result.score1 : match.result.score2;
+                        const oppScore = isPlayer1 ? match.result.score2 : match.result.score1;
+                        scoreFor = playerScore;
+                        scoreAgainst = oppScore;
+                        if (match.result.winnerId === fighter.id) {
+                            result = 'Win';
+                        } else {
+                            result = 'Loss';
+                        }
+                        actions = `<button class="btn-retro-icon edit-match-btn" data-match-index="${index}" title="Edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d1bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>`;
+                    } else {
+                        result = 'Pending';
+                        scoreFor = '-';
+                        scoreAgainst = '-';
+                    }
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${opponent.name}</td>
+                        <td>${status}</td>
+                        <td>${result}</td>
+                        <td>${scoreFor}</td>
+                        <td>${scoreAgainst}</td>
+                        <td>${actions}</td>
+                    `;
+                    participantMatchesTableBody.appendChild(row);
+                });
+            }
+
+            function handleManageTableClick(e) {
+                const button = e.target.closest('button');
+                if (!button) return;
+
+                const action = button.dataset.action;
+                const id = parseInt(button.dataset.id);
+
+                if (action === 'delete') {
+                    deletePlayer(id);
+                } else if (action === 'edit') {
+                    openEditModal(id);
+                } else if (action === 'view_matches') {
+                    selectedFighterId = id;
+                    const fighter = participants.find(p => p.id === id);
+                    manageModalTitle.textContent = `MATCHES FOR ${fighter.name}`;
+                    manageTableHead.innerHTML = '<tr><th>Match #</th><th>Opponent</th><th>Winner</th><th>Loser</th><th>Score</th></tr>';
+                    backManageBtn.style.display = 'inline-block';
+                    populateFighterMatchesTable(id);
+                }
+            }
+            
+            function handlePlayNowClick(e) {
+                const playButton = e.target.closest('.play-now-btn');
+                if (!playButton) return;
+
+                const matchIndexToPlay = parseInt(playButton.dataset.matchIndex);
+                if (isNaN(matchIndexToPlay)) return;
+
+                // Find the index of the *current* next match
+                const currentNextMatchIndex = schedule.findIndex(match => !match.result);
+
+                // Pull the selected match from its position
+                const [priorityMatch] = schedule.splice(matchIndexToPlay, 1);
+
+                // Insert the match at the current next position
+                // If all matches were played, it'll just be at the end, which is fine.
+                const insertionIndex = currentNextMatchIndex !== -1 ? currentNextMatchIndex : schedule.length;
+                schedule.splice(insertionIndex, 0, priorityMatch);
+                
+                // Update the UI
+                selectNextMatch();
+                closeManageModal();
+                saveState();
+            }
+
+            function handleManualScoreSave(e) {
+                const saveButton = e.target.closest('.save-manual-score');
+                if (!saveButton) return;
+
+                const matchIndex = parseInt(saveButton.dataset.matchIndex);
+                const match = schedule[matchIndex];
+
+                const score1Input = document.querySelector(`input[data-match-index='${matchIndex}'][data-player='1']`);
+                const score2Input = document.querySelector(`input[data-match-index='${matchIndex}'][data-player='2']`);
+
+                const score1 = parseInt(score1Input.value);
+                const score2 = parseInt(score2Input.value);
+
+                // Validation
+                if (isNaN(score1) || isNaN(score2) || score1 < 0 || score2 < 0) {
+                    alert("Scores must be positive numbers.");
+                    return;
+                }
+                if ((score1 !== winningScore && score2 !== winningScore) || score1 === score2) {
+                     alert(`One player must win with a score of ${winningScore} (FT${winningScore}).`);
+                     return;
+                }
+                 if (score1 > winningScore || score2 > winningScore) {
+                     alert(`Scores cannot exceed ${winningScore}.`);
+                     return;
+                }
+                
+                // Process the result
+                processMatchResult(match, score1, score2);
+
+                // Re-render tables and update the main match card
+                renderTable();
+                populateAllMatchesTable(); // Redraw this table to show the result instead of inputs
+                selectNextMatch(); // Find the new next match
+                saveState();
+            }
+            
+            function openEditModal(id) {
+                const participant = participants.find(p => p.id === id);
+                if (!participant) return;
+
+                editingParticipantId = id;
+                editFighterName.textContent = participant.name;
+                editNameInput.value = participant.name;
+                editMatchesPlayedInput.value = participant.wins + participant.losses;
+                editWinsInput.value = participant.wins;
+                editLossesInput.value = participant.losses;
+                editPointsInput.value = participant.points;
+                editScoreForInput.value = participant.scoreFor;
+                editScoreAgainstInput.value = participant.scoreAgainst;
+                editScoreDiffInput.value = participant.scoreDifference;
+
+                editModal.style.display = 'flex';
+            }
+
+            function closeEditModal() {
+                editingParticipantId = null;
+                editModal.style.display = 'none';
+            }
+            
+            function saveEdits() {
+                const participant = participants.find(p => p.id === editingParticipantId);
+                if (!participant) return;
+
+                const newName = editNameInput.value.trim().toUpperCase();
+                if (!newName) {
+                    alert('Fighter name cannot be empty.');
+                    return;
+                }
+                if (participants.some(p => p.id !== editingParticipantId && p.name === newName)) {
+                    alert('Fighter with this name already exists!');
+                    return;
+                }
+
+                participant.name = newName;
+                participant.wins = parseInt(editWinsInput.value) || 0;
+                participant.losses = parseInt(editLossesInput.value) || 0;
+                participant.points = parseInt(editPointsInput.value) || 0;
+                participant.scoreFor = parseInt(editScoreForInput.value) || 0;
+                participant.scoreAgainst = parseInt(editScoreAgainstInput.value) || 0;
+                participant.scoreDifference = participant.scoreFor - participant.scoreAgainst;
+
+                renderTable();
+                populateManageFightersTable();
+                closeEditModal();
+                saveState();
+            }
+
+            // --- Participant Matches Modal ---
+            function handleParticipantClick(e) {
+                const link = e.target.closest('.participant-link');
+                if (!link) return;
+                e.preventDefault();
+                const id = parseInt(link.dataset.id);
+                openParticipantModal(id);
+            }
+
+            function openParticipantModal(id) {
+                const participant = participants.find(p => p.id === id);
+                if (!participant) return;
+                participantNameEl.textContent = participant.name;
+                populateParticipantMatchesTable(participant);
+                participantModal.style.display = 'flex';
+            }
+
+            function populateParticipantMatchesTable(participant) {
+                participantMatchesTableBody.innerHTML = '';
+                if (schedule.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="7" class="text-center">No matches scheduled yet.</td>';
+                    participantMatchesTableBody.appendChild(row);
+                    return;
+                }
+                schedule.forEach((match, index) => {
+                    if (match.player1.id !== participant.id && match.player2.id !== participant.id) return;
+                    const opponent = match.player1.id === participant.id ? match.player2 : match.player1;
+                    const isPlayed = !!match.result;
+                    const status = isPlayed ? 'Played' : 'Upcoming';
+                    let result = '';
+                    let scoreFor = '';
+                    let scoreAgainst = '';
+                    let actions = '';
+                    if (isPlayed) {
+                        const isPlayer1 = match.player1.id === participant.id;
+                        const playerScore = isPlayer1 ? match.result.score1 : match.result.score2;
+                        const oppScore = isPlayer1 ? match.result.score2 : match.result.score1;
+                        scoreFor = playerScore;
+                        scoreAgainst = oppScore;
+                        if (match.result.winnerId === participant.id) {
+                            result = 'Win';
+                        } else {
+                            result = 'Loss';
+                        }
+                        actions = `<button class="btn-retro-icon edit-match-btn" data-match-index="${index}" title="Edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d1bfb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>`;
+                    } else {
+                        result = 'Pending';
+                        scoreFor = '-';
+                        scoreAgainst = '-';
+                    }
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${opponent.name}</td>
+                        <td>${status}</td>
+                        <td>${result}</td>
+                        <td>${scoreFor}</td>
+                        <td>${scoreAgainst}</td>
+                        <td>${actions}</td>
+                    `;
+                    participantMatchesTableBody.appendChild(row);
+                });
+            }
+
+            function handleEditMatchClick(e) {
+                const btn = e.target.closest('.edit-match-btn');
+                if (!btn) return;
+                const matchIndex = parseInt(btn.dataset.matchIndex);
+                openEditMatchModal(matchIndex);
+            }
+
+            function openEditMatchModal(matchIndex) {
+                const match = schedule[matchIndex];
+                if (!match || !match.result) return;
+                currentEditingMatchIndex = matchIndex;
+                editPlayer1Name.textContent = match.player1.name;
+                editPlayer2Name.textContent = match.player2.name;
+                editScore1Input.value = match.result.score1;
+                editScore2Input.value = match.result.score2;
+                editMatchInfo.textContent = `Editing match between ${match.player1.name} and ${match.player2.name}`;
+                editMatchModal.style.display = 'flex';
+            }
+
+            function saveMatchEdit() {
+                const match = schedule[currentEditingMatchIndex];
+                if (!match) return;
+                const newScore1 = parseInt(editScore1Input.value);
+                const newScore2 = parseInt(editScore2Input.value);
+                if (isNaN(newScore1) || isNaN(newScore2) || newScore1 < 0 || newScore2 < 0) {
+                    alert('Scores must be positive numbers.');
+                    return;
+                }
+                if ((newScore1 !== winningScore && newScore2 !== winningScore) || newScore1 === newScore2) {
+                    alert(`One player must win with a score of ${winningScore}.`);
+                    return;
+                }
+                if (newScore1 > winningScore || newScore2 > winningScore) {
+                    alert(`Scores cannot exceed ${winningScore}.`);
+                    return;
+                }
+                // Subtract old stats
+                const oldResult = match.result;
+                const oldWinner = participants.find(p => p.id === oldResult.winnerId);
+                const oldLoser = participants.find(p => p.id === oldResult.loserId);
+                oldWinner.wins--;
+                oldWinner.points -= 3;
+                oldLoser.losses--;
+                const isOldWinnerPlayer1 = oldResult.winnerId === match.player1.id;
+                if (isOldWinnerPlayer1) {
+                    oldWinner.scoreFor -= oldResult.score1;
+                    oldWinner.scoreAgainst -= oldResult.score2;
+                } else {
+                    oldWinner.scoreFor -= oldResult.score2;
+                    oldWinner.scoreAgainst -= oldResult.score1;
+                }
+                const isOldLoserPlayer1 = oldResult.loserId === match.player1.id;
+                if (isOldLoserPlayer1) {
+                    oldLoser.scoreFor -= oldResult.score1;
+                    oldLoser.scoreAgainst -= oldResult.score2;
+                } else {
+                    oldLoser.scoreFor -= oldResult.score2;
+                    oldLoser.scoreAgainst -= oldResult.score1;
+                }
+                oldWinner.scoreDifference = oldWinner.scoreFor - oldWinner.scoreAgainst;
+                oldLoser.scoreDifference = oldLoser.scoreFor - oldLoser.scoreAgainst;
+                // Add new stats
+                const newWinner = (newScore1 > newScore2) ? match.player1 : match.player2;
+                const newLoser = (newScore1 > newScore2) ? match.player2 : match.player1;
+                newWinner.wins++;
+                newWinner.points += 3;
+                newLoser.losses++;
+                const isNewWinnerPlayer1 = newWinner.id === match.player1.id;
+                if (isNewWinnerPlayer1) {
+                    newWinner.scoreFor += newScore1;
+                    newWinner.scoreAgainst += newScore2;
+                } else {
+                    newWinner.scoreFor += newScore2;
+                    newWinner.scoreAgainst += newScore1;
+                }
+                const isNewLoserPlayer1 = newLoser.id === match.player1.id;
+                if (isNewLoserPlayer1) {
+                    newLoser.scoreFor += newScore1;
+                    newLoser.scoreAgainst += newScore2;
+                } else {
+                    newLoser.scoreFor += newScore2;
+                    newLoser.scoreAgainst += newScore1;
+                }
+                newWinner.scoreDifference = newWinner.scoreFor - newWinner.scoreAgainst;
+                newLoser.scoreDifference = newLoser.scoreFor - newLoser.scoreAgainst;
+                // Update match result
+                match.result = {
+                    score1: newScore1,
+                    score2: newScore2,
+                    winnerId: newWinner.id,
+                    loserId: newLoser.id
+                };
+                renderTable();
+                closeEditMatchModal();
+                saveState();
+                // Re-populate the participant modal if open
+                if (participantModal.style.display === 'flex') {
+                    const participantId = participants.find(p => p.name === participantNameEl.textContent).id;
+                    populateParticipantMatchesTable(participants.find(p => p.id === participantId));
+                }
+            }
+
+            function closeParticipantModal() {
+                participantModal.style.display = 'none';
+            }
+
+            function closeEditMatchModal() {
+                editMatchModal.style.display = 'none';
+                currentEditingMatchIndex = null;
+            }
+
+            function initializeApp() {
+                loadState();
+                renderTable();
+                updateStartButton();
+                if(tournamentStarted) {
+                    addPlayerCard.classList.add('hidden');
+                    addPlayerBtn.disabled = true;
+                    playerNameInput.disabled = true;
+                    selectNextMatch();
+                }
+            }
+
+            // --- Event Listeners ---
+            const resetAppBtn = document.getElementById('resetAppBtn');
+
+            addPlayerBtn.addEventListener('click', addPlayer);
+            playerNameInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') addPlayer();
+            });
+            startTournamentBtn.addEventListener('click', openFtModal);
+            submitScoreBtn.addEventListener('click', () => {
+                submitScore();
+                saveState();
+            });
+
+            playerTableBody.addEventListener('click', handleParticipantClick);
+            
+            manageFightersBtn.addEventListener('click', openManageModal);
+            closeManageModalBtn.addEventListener('click', closeManageModal);
+            backManageBtn.addEventListener('click', () => {
+                selectedFighterId = null;
+                manageModalTitle.textContent = 'MANAGE FIGHTERS';
+                manageTableHead.innerHTML = '<tr><th>FIGHTER</th><th>ACTIONS</th></tr>';
+                backManageBtn.style.display = 'none';
+                populateManageFightersTable();
+            });
+            manageTableBody.addEventListener('click', (e) => {
+                handleManageTableClick(e);
+                handleManualScoreSave(e);
+                handlePlayNowClick(e);
+            });
+
+            allMatchesBtn.addEventListener('click', () => {
+                manageModalTitle.textContent = 'ALL MATCHES';
+                manageTableHead.innerHTML = '<tr><th>#</th><th>ACTION</th><th>Players</th><th>Score</th></tr>';
+                backManageBtn.style.display = 'inline-block';
+                populateAllMatchesTable();
+                manageModal.style.display = 'flex';
+            });
+
+            saveEditBtn.addEventListener('click', saveEdits);
+            cancelEditBtn.addEventListener('click', closeEditModal);
+            
+            confirmStartBtn.addEventListener('click', () => {
+                confirmAndStartTournament();
+                saveState();
+            });
+            cancelStartBtn.addEventListener('click', closeFtModal);
+
+            closeParticipantModalBtn.addEventListener('click', closeParticipantModal);
+            saveMatchEditBtn.addEventListener('click', saveMatchEdit);
+            cancelMatchEditBtn.addEventListener('click', closeEditMatchModal);
+            participantMatchesTableBody.addEventListener('click', handleEditMatchClick);
+
+            resetAppBtn.addEventListener('click', () => {
+                if(confirm("Are you sure you want to reset the tournament? All data will be lost.")) {
+                    localStorage.removeItem('retroLeagueState');
+                    location.reload();
+                }
+            });
+
+            // Close modals when clicking on the backdrop
+            [winnerModal, manageModal, editModal, ftModal, participantModal, editMatchModal].forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // Initialize the application on load
+            initializeApp();
+        });
+    </script>
+</body>
+</html>
+
+

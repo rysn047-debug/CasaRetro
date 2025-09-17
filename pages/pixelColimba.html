@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rey de la Colimba - Pixel Edition</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Pixel Art Style Overhaul */
+        :root {
+            /* Pixel Art Palette */
+            --background-color: #2f223a; /* very dark desaturated purple */
+            --container-bg: #442c40;     /* very dark purple */
+            --card-bg: #553b4f;          /* deep muted purple */
+            --border-color: #565059;     /* dark greyish purple */
+            --shadow-color: #2b3e40;     /* dark cyan for shadow */
+            
+            --primary-color: #b6595e;    /* dusty rose */
+            --accent-color: #be9367;     /* tan */
+            --success-color: #8ca290;    /* muted green */
+            --danger-color: #9d3648;     /* darker rose */
+
+            --text-color: #f7f0e8;       /* off-white */
+            --text-secondary: #b4aeb2;   /* grey */
+        }
+
+        /* General Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* Disable smooth fonts for pixelated look */
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Silkscreen', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .main-container {
+            background-color: var(--container-bg);
+            border: 4px solid var(--border-color);
+            padding: 30px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 8px 8px 0px 0px var(--shadow-color);
+            position: relative;
+        }
+
+        /* Headers */
+        h1, h2, h3 {
+            font-family: 'Silkscreen', sans-serif;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            -webkit-text-stroke: 1px var(--shadow-color); /* outline */
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 4px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* Input Fields */
+        .setup-container {
+            margin-bottom: 30px;
+        }
+
+        .registration-container, .score-goal-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        input {
+            flex-grow: 1;
+            padding: 14px 16px;
+            border: 4px solid var(--border-color);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            font-family: 'Silkscreen', sans-serif;
+            border-radius: 0;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: #525c54; /* dark muted cyan on focus */
+        }
+
+        /* Buttons */
+        button {
+            padding: 14px 20px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 4px solid var(--border-color);
+            border-radius: 0;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Silkscreen', sans-serif;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            top: 0;
+            left: 0;
+            box-shadow: 4px 4px 0px 0px var(--shadow-color);
+            transition: all 0.1s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background-color: var(--border-color);
+        }
+
+        button:active {
+            top: 4px;
+            left: 4px;
+            box-shadow: 0px 0px 0px 0px var(--shadow-color);
+        }
+
+        button.primary {
+            background: var(--primary-color);
+            border-color: var(--shadow-color);
+            color: var(--text-color);
+        }
+        button.primary:hover {
+            background: #9d3648; /* darker rose */
+        }
+
+        button.secondary {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        button.secondary:hover {
+            background-color: var(--border-color);
+        }
+
+        button.danger {
+            background-color: var(--danger-color);
+            color: var(--text-color);
+            border-color: var(--shadow-color);
+        }
+        button.danger:hover {
+            background-color: #5b252f;
+        }
+
+        button.success {
+            background-color: var(--success-color);
+            color: var(--text-color);
+            border-color: var(--shadow-color);
+        }
+        button.success:hover {
+            background-color: #525c54;
+        }
+
+        /* Player Cards */
+        .active-players-container {
+            margin-bottom: 30px;
+        }
+
+        .player-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 16px;
+            background-color: var(--card-bg);
+            padding: 18px;
+            margin-bottom: 15px;
+            border: 4px solid var(--border-color);
+        }
+
+        .player-score {
+            font-family: 'Silkscreen', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .player-name {
+            font-family: 'Silkscreen', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-color);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .player-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .player-actions button {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+        }
+
+        /* Queue List */
+        .queue-section {
+            margin-bottom: 20px;
+        }
+
+        .next-player-container {
+            background: var(--container-bg);
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 4px solid var(--border-color);
+        }
+
+        #nextPlayerName {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        #playerQueueList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #playerQueueList li {
+            background-color: var(--card-bg);
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            border: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        #playerQueueList li .score {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* Corner Action Buttons */
+        .corner-actions {
+            position: sticky;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: transparent;
+        }
+
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            background: var(--primary-color);
+            color: var(--text-color);
+            border: 4px solid var(--shadow-color);
+        }
+
+        .action-btn:hover {
+            background: var(--danger-color);
+        }
+
+        .action-btn:active {
+            top: 4px;
+            left: 4px;
+            box-shadow: 0px 0px 0px 0px var(--shadow-color);
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.1s;
+        }
+
+        .modal-content {
+            background-color: var(--container-bg);
+            border: 4px solid var(--text-color);
+            margin: 10% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 8px 8px 0px 0px var(--shadow-color);
+            animation: slideIn 0.2s;
+        }
+
+        .close-button {
+            color: var(--text-secondary);
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 48px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: var(--danger-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Modal Lists */
+        #changePlayerList, #deletePlayerList, #editScoreList, #rankingsList {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 20px 0;
+        }
+
+        #changePlayerList li, #deletePlayerList li {
+            padding: 15px;
+            background-color: var(--card-bg);
+            margin-top: 10px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #changePlayerList li:hover, #deletePlayerList li:hover {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            border-color: var(--shadow-color);
+        }
+
+        #editScoreList li, #rankingsList li {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 15px;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--card-bg);
+            margin-top: 10px;
+            border: 2px solid var(--border-color);
+        }
+
+        #editScoreList .score-input {
+            width: 70px;
+            text-align: center;
+        }
+
+        #rankingsList .position {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        #rankingsList .score {
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* Winner Message */
+        #winnerMessage {
+            font-size: 1.3rem;
+            margin: 25px 0;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        #winnerMessage span {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .main-container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .registration-container, .score-goal-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .player-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 12px;
+            }
+            
+            .player-actions {
+                justify-content: center;
+            }
+            
+            .corner-actions {
+                position: static;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h1><i class="fas fa-crown"></i> Rey de la Colimba</h1>
+
+        <div class="setup-container">
+            <div class="registration-container">
+                <input type="text" id="playerNameInput" placeholder="Player Name...">
+                <button id="addPlayerButton" class="primary"><i class="fas fa-plus"></i> ADD</button>
+            </div>
+            <label for="scoreGoalInput">Play to:</label>
+            <div class="score-goal-container">
+                <input type="number" id="scoreGoalInput" value="5" min="1">
+                <button id="setScoreButton" class="secondary"><i class="fas fa-bullseye"></i> SET</button>
+            </div>
+        </div>
+
+        <div id="activePlayersContainer" class="active-players-container"></div>
+
+        <div class="queue-section">
+            <div class="next-player-container">
+                <h3>NEXT: <span id="nextPlayerName">---</span></h3>
+            </div>
+            <h2><i class="fas fa-clock"></i> QUEUE</h2>
+            <ul id="playerQueueList"></ul>
+        </div>
+        
+        <div class="corner-actions">
+            <button id="deletePlayerButton" class="action-btn" title="Delete Player">
+                <i class="fas fa-user-minus"></i>
+            </button>
+            <button id="editScoreButton" class="action-btn" title="Edit Scores">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button id="rankingsButton" class="action-btn" title="View Rankings">
+                <i class="fas fa-trophy"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="changePlayerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeChangeModal">&times;</span>
+            <h2><i class="fas fa-exchange-alt"></i> Swap with:</h2>
+            <ul id="changePlayerList"></ul>
+        </div>
+    </div>
+
+    <div id="winnerModal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-trophy"></i> We have a Winner!</h2>
+            <p id="winnerMessage"></p>
+            <button id="closeWinnerModal" class="primary">Continue</button>
+        </div>
+    </div>
+
+    <div id="deletePlayerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeDeleteModal">&times;</span>
+            <h2><i class="fas fa-user-minus"></i> Delete Player:</h2>
+            <ul id="deletePlayerList"></ul>
+        </div>
+    </div>
+
+    <div id="editScoreModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeEditScoreModal">&times;</span>
+            <h2><i class="fas fa-edit"></i> Edit Scores:</h2>
+            <ul id="editScoreList"></ul>
+        </div>
+    </div>
+
+    <div id="rankingsModal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-trophy"></i> Rankings</h2>
+            <ul id="rankingsList"></ul>
+            <button id="closeRankingsModal" class="primary" style="margin-top: 20px;">Close</button>
+        </div>
+    </div>
+    <img src="../assets/este.png" alt="Julian" style="width:500px; height:600px">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Element Selectors
+            const playerNameInput = document.getElementById('playerNameInput');
+            const addPlayerButton = document.getElementById('addPlayerButton');
+            const scoreGoalInput = document.getElementById('scoreGoalInput');
+            const setScoreButton = document.getElementById('setScoreButton');
+            const activePlayersContainer = document.getElementById('activePlayersContainer');
+            const nextPlayerName = document.getElementById('nextPlayerName');
+            const playerQueueList = document.getElementById('playerQueueList');
+            const deletePlayerButton = document.getElementById('deletePlayerButton');
+            const editScoreButton = document.getElementById('editScoreButton');
+            const rankingsButton = document.getElementById('rankingsButton');
+            
+            // Modal Selectors
+            const changePlayerModal = document.getElementById('changePlayerModal');
+            const closeChangeModal = document.getElementById('closeChangeModal');
+            const changePlayerList = document.getElementById('changePlayerList');
+            const winnerModal = document.getElementById('winnerModal');
+            const winnerMessage = document.getElementById('winnerMessage');
+            const closeWinnerModal = document.getElementById('closeWinnerModal');
+            const deletePlayerModal = document.getElementById('deletePlayerModal');
+            const closeDeleteModal = document.getElementById('closeDeleteModal');
+            const deletePlayerList = document.getElementById('deletePlayerList');
+            const editScoreModal = document.getElementById('editScoreModal');
+            const closeEditScoreModal = document.getElementById('closeEditScoreModal');
+            const editScoreList = document.getElementById('editScoreList');
+            const rankingsModal = document.getElementById('rankingsModal');
+            const rankingsList = document.getElementById('rankingsList');
+            const closeRankingsModal = document.getElementById('closeRankingsModal');
+
+            // Application state variables
+            let playerList = []; // Array of { name: string, score: number }
+            const MAX_PLAYERS = 30;
+            let targetScore = 5;
+            let playerIndexToSwap = -1;
+            let gameIsOver = false;
+            let matchCount = 0;
+
+            // --- EVENT LISTENERS --- //
+            addPlayerButton.addEventListener('click', addPlayer);
+            playerNameInput.addEventListener('keyup', (e) => e.key === 'Enter' && addPlayer());
+            setScoreButton.addEventListener('click', setTargetScore);
+            deletePlayerButton.addEventListener('click', openDeleteModal);
+            editScoreButton.addEventListener('click', openEditScoreModal);
+            rankingsButton.addEventListener('click', showRankings);
+            
+            // Modal Close Listeners
+            closeChangeModal.addEventListener('click', () => changePlayerModal.style.display = 'none');
+            closeWinnerModal.addEventListener('click', () => {
+                winnerModal.style.display = 'none';
+                showRankings();
+            });
+            closeDeleteModal.addEventListener('click', () => deletePlayerModal.style.display = 'none');
+            closeEditScoreModal.addEventListener('click', () => editScoreModal.style.display = 'none');
+            closeRankingsModal.addEventListener('click', () => {
+                rankingsModal.style.display = 'none';
+                gameIsOver = false;
+                matchCount = 0; // Reset match count for the next tournament
+            });
+            window.addEventListener('click', (e) => {
+                if (e.target === changePlayerModal) changePlayerModal.style.display = 'none';
+                if (e.target === deletePlayerModal) deletePlayerModal.style.display = 'none';
+                if (e.target === editScoreModal) editScoreModal.style.display = 'none';
+                if (e.target === rankingsModal) rankingsModal.style.display = 'none';
+            });
+
+            // --- CORE FUNCTIONS --- //
+            function setTargetScore() {
+                const score = parseInt(scoreGoalInput.value, 10);
+                if (score > 0) {
+                    targetScore = score;
+                    alert(`The game is now set to ${targetScore} points.`);
+                } else {
+                    alert("Please enter a valid number greater than 0.");
+                }
+            }
+
+            function addPlayer() {
+                const name = playerNameInput.value.trim();
+                if (!name) return alert("Please enter a name.");
+                if (playerList.length >= MAX_PLAYERS) return alert("Player limit of 30 reached.");
+                if (playerList.some(p => p.name.toLowerCase() === name.toLowerCase())) return alert("This player is already in the list.");
+                playerList.push({ name: name, score: 0 });
+                playerNameInput.value = '';
+                renderUI();
+            }
+
+            function handleWin(winnerIndex) {
+                if (gameIsOver || playerList.length < 2) return;
+                matchCount++;
+                const winner = playerList[winnerIndex];
+                winner.score++;
+                const loserIndex = winnerIndex === 0 ? 1 : 0;
+                const loser = playerList.splice(loserIndex, 1)[0];
+                playerList.push(loser);
+                renderUI();
+                checkForWinner(winner);
+            }
+
+            function checkForWinner(player) {
+                if (player.score >= targetScore) {
+                    gameIsOver = true;
+                    winnerMessage.innerHTML = `Congratulations to <span>${player.name}</span>!<br><small>The game ended in ${matchCount} matches.</small>`;
+                    winnerModal.style.display = 'block';
+                }
+            }
+
+            function showRankings() {
+                const sortedPlayers = [...playerList].sort((a, b) => b.score - a.score);
+                rankingsList.innerHTML = '';
+                sortedPlayers.forEach((player, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="position">${index + 1}.</span>
+                        <span class="player-name">${player.name}</span>
+                        <span class="score">${player.score} pts</span>
+                    `;
+                    rankingsList.appendChild(li);
+                });
+                rankingsModal.style.display = 'block';
+            }
+
+            function openSwapModal(activePlayerIndex) {
+                const queue = playerList.slice(2);
+                if (queue.length === 0) return alert("No players in the queue to swap with.");
+                playerIndexToSwap = activePlayerIndex;
+                changePlayerList.innerHTML = '';
+                queue.forEach((player, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${player.name} <span>${player.score} pts</span>`;
+                    li.addEventListener('click', () => executeSwap(index));
+                    changePlayerList.appendChild(li);
+                });
+                changePlayerModal.style.display = 'block';
+            }
+
+            function executeSwap(queuePlayerIndex) {
+                const globalQueueIndex = queuePlayerIndex + 2;
+                const playerSwappingIn = playerList[globalQueueIndex];
+                const playerSwappingOut = playerList[playerIndexToSwap];
+                playerList[playerIndexToSwap] = playerSwappingIn;
+                playerList.splice(globalQueueIndex, 1);
+                playerList.push(playerSwappingOut);
+                changePlayerModal.style.display = 'none';
+                renderUI();
+            }
+            
+            function openDeleteModal() {
+                if (playerList.length === 0) return alert("No players to delete.");
+                deletePlayerList.innerHTML = '';
+                playerList.forEach((player, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${player.name} <span>${player.score} pts</span>`;
+                    li.addEventListener('click', () => executeDelete(index));
+                    deletePlayerList.appendChild(li);
+                });
+                deletePlayerModal.style.display = 'block';
+            }
+            
+            function executeDelete(playerIndex) {
+                playerList.splice(playerIndex, 1);
+                deletePlayerModal.style.display = 'none';
+                gameIsOver = false;
+                renderUI();
+            }
+
+            function openEditScoreModal() {
+                if (playerList.length === 0) return alert("No players to edit.");
+                editScoreList.innerHTML = '';
+                playerList.forEach((player, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="player-name">${player.name}</span>
+                        <input type="number" class="score-input" value="${player.score}" min="0">
+                        <button class="save-score-btn secondary"><i class="fas fa-save"></i></button>
+                    `;
+                    li.querySelector('.save-score-btn').addEventListener('click', () => {
+                        const newScore = parseInt(li.querySelector('.score-input').value, 10);
+                        executeUpdateScore(index, newScore);
+                    });
+                    editScoreList.appendChild(li);
+                });
+                editScoreModal.style.display = 'block';
+            }
+
+            function executeUpdateScore(playerIndex, newScore) {
+                if (isNaN(newScore) || newScore < 0) {
+                    return alert("Please enter a valid score.");
+                }
+                playerList[playerIndex].score = newScore;
+                gameIsOver = false;
+                editScoreModal.style.display = 'none';
+                renderUI();
+                checkForWinner(playerList[playerIndex]);
+            }
+
+            // --- UI RENDERING FUNCTION --- //
+            function renderUI() {
+                activePlayersContainer.innerHTML = '';
+                playerQueueList.innerHTML = '';
+                nextPlayerName.textContent = '---';
+
+                if (playerList.length === 0) return;
+
+                const activePlayers = playerList.slice(0, 2);
+                activePlayers.forEach((player, index) => {
+                    const playerCard = document.createElement('div');
+                    playerCard.className = 'player-card';
+                    playerCard.innerHTML = `
+                        <span class="player-score">${player.score}</span>
+                        <span class="player-name">${player.name}</span>
+                        <div class="player-actions">
+                            <button class="success" title="Mark victory"><i class="fas fa-trophy"></i> WIN</button>
+                            <button class="secondary" title="Change player"><i class="fas fa-exchange-alt"></i> SWAP</button>
+                        </div>
+                    `;
+                    playerCard.querySelector('.success').addEventListener('click', () => handleWin(index));
+                    playerCard.querySelector('.secondary').addEventListener('click', () => openSwapModal(index));
+                    activePlayersContainer.appendChild(playerCard);
+                });
+
+                if (playerList.length > 2) {
+                    const queue = playerList.slice(2);
+                    nextPlayerName.textContent = queue[0].name;
+                    queue.forEach(player => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<span class="name">${player.name}</span> <span class="score">${player.score} pts</span>`;
+                        playerQueueList.appendChild(li);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
