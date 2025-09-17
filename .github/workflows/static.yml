@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install # Use pnpm install
       - name: Build
-        run: pnpm run buildstyles  # Use pnpm run build
+        run: pnpm run build  # Use pnpm run build
       # --- PNPM CHANGES END HERE ---
 
       - name: Setup Pages
@@ -45,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './public'
+          path: './assets'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
