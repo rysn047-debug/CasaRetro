@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pnpx @tailwindcss/cli -i ./input.css -o ./assets/output.css",
-    "buildstyles": "pnpx @tailwindcss/cli -i ./input.css -o ./assets/output.css --watch"
+    "build": "pnpx @tailwindcss/cli -i ./input.css -o ./dist/output.css",
+    "buildstyles": "pnpx @tailwindcss/cli -i ./input.css -o ./dist/output.css --watch"
   },
   "keywords": [],
   "author": "",
